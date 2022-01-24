@@ -1,0 +1,38 @@
+{% extends 'layout.html.twig' %}
+
+{% set referer = app.request.server.get('http-referer')|default('/') %}
+{% block page_contents %}
+    <div class="form wide-form">
+        <div class="container">
+            <div class="row ">
+                <div class="col-lg-7 mx-auto">
+                    <div class="card mt-2 mx-auto p-4 bg-light">
+                        <div class="card-body bg-light">
+                            <div class="container">
+                                <h1>Login</h1>
+                                <div class="controls">
+                                    <div class="row">
+                                        <form action="{{ path('login') }}" method="post">
+                                            <label for="username">Email:</label>
+                                            <input type="text" id="username" name="_username"
+                                                   value="{{ last_username }}"/>
+
+                                            <label for="password">Password:</label>
+                                            <input type="password" id="password" name="_password"/>
+                                            <input type="hidden" name="_target_path" value="{{ referer }}"/>
+
+                                            <button type="submit">login</button>
+                                            {% if error %}
+                                                <h6 class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</h6>
+                                            {% endif %}
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

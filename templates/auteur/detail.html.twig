@@ -1,0 +1,97 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_contents %}
+    <div class="form wide-form">
+        <div>
+            <div class="container">
+                <div class="row ">
+                    <div class="col-lg-7 mx-auto">
+                        <div class="card mt-2 mx-auto p-4 bg-light">
+                            <div class="card-body bg-light">
+                                <div class="container">
+                                    <form id="detail-form" role="form" method="post">
+                                        <h1>Détailles de l'auteur</h1>
+                                        <div class="controls">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group"><label for="form_nom">Nom:</label>
+                                                        <input id="form_nom" type="text" name="form_nom"
+                                                               class="form-control detail-input"
+                                                               {% if not app.user %}disabled{% endif %}
+                                                               required="required" data-error="Champ obligatoire !"
+                                                               value="{{ auteur.nomPrenom }}"
+                                                        >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group"><label for="form_sexe">Sexe:
+                                                        </label>
+                                                        <select name="form_sexe" class="detail-input form-select"
+                                                                {% if not app.user %}disabled{% endif %} id="form_sexe">
+                                                            <option value="M" {{ auteur.sexe == 'M' ? 'selected' : '' }}>
+                                                                Masculin
+                                                            </option>
+                                                            <option value="F" {{ auteur.sexe == 'F' ? 'selected' : '' }}>
+                                                                Féminin
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group"><label for="form_date_naissance">Date
+                                                            de naissance:
+                                                        </label> <input id="form_date_naissance" type="date"
+                                                                        name="form_date_naissance"
+                                                                        class="form-control detail-input"
+                                                                        {% if not app.user %}disabled{% endif %}
+                                                                        required="required"
+                                                                        data-error="Champ obligatoire !"
+                                                                        value="{{ auteur.dateDeNaissance|date('Y-m-d') }}"
+                                                        ></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group"><label for="form_nationalite">Nationalité:
+                                                        </label> <input id="form_nationalite" type="text"
+                                                                        name="form_nationalite"
+                                                                        class="form-control detail-input"
+                                                                        {% if not app.user %}disabled{% endif %}
+                                                                        required="required"
+                                                                        data-error="Champ obligatoire !"
+                                                                        value="{{ auteur.nationalite }}"
+                                                        >
+                                                    </div>
+                                                </div>
+                                                {% if auteur.livres|length > 0 %}
+                                                    <hr/>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label>Livre(s):</label>
+                                                            <br/>
+                                                            {% for livre in auteur.livres %}
+                                                                <a href="{{ path('livre_detail', {livre: livre.id}) }}">{{ livre.titre }}</a>
+                                                                <br/>
+                                                            {% endfor %}
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                                <hr/>
+                                                <input class="btn btn-primary cursor-poiner styled-btn {% if not app.user %}d-none{% endif %}"
+                                                       type="submit"
+                                                       name="submit_form" value="Valider">
+                                                {% if app.user and auteur.id is not null %}
+                                                    <input class="btn btn-primary cursor-poiner styled-btn"
+                                                           type="button"
+                                                           onclick="window.location='{{ path('auteur_delete', {auteur : auteur.id}) }}'"
+                                                           value="Supprimer">
+                                                {% endif %}
+                                            </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

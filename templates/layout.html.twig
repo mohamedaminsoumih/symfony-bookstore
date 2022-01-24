@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="main-page">
+        <button class="livres-btn navigation-btn" onclick="window.location='{{ path('list_livres') }}'">Livres</button>
+        <button class="auteurs-btn navigation-btn" onclick="window.location='{{ path('list_auteurs') }}'">Auteurs
+        </button>
+        <button class="genres-btn navigation-btn" onclick="window.location='{{ path('list_genres') }}'">Genres</button>
+        {% if app.user %}
+            <button class="logout-btn navigation-btn" onclick="window.location='{{ path('app_logout') }}'">Logout
+            </button>
+        {% else %}
+            <button class="logout-btn navigation-btn" onclick="window.location='{{ path('login') }}'">Login</button>
+        {% endif %}
+        {% block page_contents %}{% endblock %}
+    </div>
+{% endblock %}

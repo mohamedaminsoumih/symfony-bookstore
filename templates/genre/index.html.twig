@@ -1,0 +1,23 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_contents %}
+    <div class="form wide-form">
+        <div>
+            <table class="table-bordered">
+                <tr>
+                    <th>Nom</th>
+                    <th>
+                        Livres
+                        <a href="{{ path('add_genre') }}" class="float-right">Nouveau</a>
+                    </th>
+                </tr>
+                {% for genre in genres %}
+                    <tr>
+                        <td><a href="{{ path('genre_detail', {'genre' : genre.id}, false) }}">{{ genre.nom }}</a></td>
+                        <td>{{ genre.livres|length }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

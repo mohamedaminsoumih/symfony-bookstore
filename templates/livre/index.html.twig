@@ -1,0 +1,53 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_contents %}
+    <div class="form wide-form">
+        <div>
+            <form id="search-form" method="post">
+                <label >Titre:</label>
+                <input type="text" name="titre" id="titre" class="search-input" value="{{ titre }}">
+                <label >De:</label>
+                <input type="date" id="date-from" name="date-from" class="search-input" value="{{ dateFrom is not null ? dateFrom|date('Y-m-d') : '' }}">
+                <label >A:</label>
+                <input type="date" id="date-to" name="date-to" class="search-input" value="{{ dateTo is not null ? dateTo|date('Y-m-d') : '' }}">
+                <button id="search-livre" name="search-livre">GO</button>
+            </form>
+        </div>
+        <div>
+            <table class="table-bordered">
+                <tr>
+                    <th>Titre</th>
+                    <th>Date publication</th>
+                    <th>ISBN</th>
+                    <th>Nbr. pages</th>
+                    <th>Genre(s)</th>
+                    <th>Auteur(s)</th>
+                    <th>
+                        <a href="{{ path('add_livre') }}" class="float-right">Nouveau</a>
+                        <br/>
+                        Note
+                    </th>
+                </tr>
+                {% for livre in livres %}
+                    <tr>
+                        <td><a href="{{ path('livre_detail', {'livre' : livre.id}, false) }}">{{ livre.titre }}</a></td>
+                        <td>{{ livre.dateDeParution|date('d/m/Y') }}</td>
+                        <td>{{ livre.isbn }}</td>
+                        <td>{{ livre.nombrePages }}</td>
+                        <td>
+                            {% for genre in livre.genres %}
+                                {{ genre.nom~(not loop.last ? ',' : '') }}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for auteur in livre.auteurs %}
+                                {{ auteur.getNomPrenom~(not loop.last ? ',' : '') }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ livre.note }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

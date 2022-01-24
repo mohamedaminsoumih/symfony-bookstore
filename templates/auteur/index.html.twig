@@ -1,0 +1,25 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_contents %}
+    <div class="form wide-form">
+        <div>
+            <table class="table-bordered">
+                <tr>
+                    <th>Nom</th>
+                    <th>Nationalité</th>
+                    <th>
+                        Livres
+                        <a href="{{ path('add_auteur') }}" class="float-right">Nouveau</a>
+                    </th>
+                </tr>
+                {% for auteur in auteurs %}
+                    <tr>
+                        <td><a href="{{ path('auteur_detail', {'auteur' : auteur.id}, false) }}">{{ auteur.nomPrenom }}</a></td>
+                        <td>{{ auteur.nationalite }}</td>
+                        <td>{{ auteur.livres|length }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

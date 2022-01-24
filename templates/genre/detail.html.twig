@@ -1,0 +1,46 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_contents %}
+    <div class="form wide-form">
+        <div>
+            <div class="container">
+                <div class="row ">
+                    <div class="col-lg-7 mx-auto">
+                        <div class="card mt-2 mx-auto p-4 bg-light">
+                            <div class="card-body bg-light">
+                                <div class="container">
+                                    <form id="detail-form" role="form" method="post">
+                                        <h1>Détailles du genre</h1>
+                                        <div class="controls">
+                                            <div class="row">
+                                                <div>
+                                                    <div class="form-group"><label for="form_titre">Nom:</label>
+                                                        <input id="form_nom" type="text" name="form_nom"
+                                                               class="form-control"
+                                                               {% if not app.user %}disabled{% endif %}
+                                                               required="required" data-error="Champ obligatoire !"
+                                                               value="{{ genre.nom }}"
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <input class="btn btn-primary cursor-poiner styled-btn {% if not app.user %}d-none{% endif %}"
+                                                   type="submit"
+                                                   name="submit_form" value="Valider">
+                                            {% if app.user and genre.id is not null and genre.livres|length == 0 %}
+                                                <input class="btn btn-primary cursor-poiner styled-btn" type="button"
+                                                       onclick="window.location='{{ path('genre_delete', {genre : genre.id}) }}'"
+                                                       value="Supprimer">
+                                            {% endif %}
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

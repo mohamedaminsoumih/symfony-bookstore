@@ -1,0 +1,129 @@
+{% extends 'layout.html.twig' %}
+
+{% block page_contents %}
+    <div class="form wide-form">
+        <div>
+            <div class="container">
+                <div class="row ">
+                    <div class="col-lg-7 mx-auto">
+                        <div class="card mt-2 mx-auto p-4 bg-light">
+                            <div class="card-body bg-light">
+                                <div class="container">
+                                    <form id="detail-form" role="form" method="post">
+                                        <h1>Détailles du livre</h1>
+                                        <div class="controls">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group"><label for="form_titre">Titre:</label>
+                                                        <input id="form_titre" type="text" name="form_titre"
+                                                               class="form-control detail-input"
+                                                               {% if not app.user %}disabled{% endif %}
+                                                               required="required" data-error="Champ obligatoire !"
+                                                               value="{{ livre.titre }}"
+                                                        >
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group"><label for="form_isbn">ISBN:
+                                                        </label> <input id="form_isbn" type="text"
+                                                                        name="form_isbn"
+                                                                {% if not app.user or livre.id is not null %}
+                                                                    disabled
+                                                                {% else %}
+                                                                    required
+                                                                {% endif %}
+                                                                        class="form-control detail-input"
+                                                                        value="{{ livre.isbn }}"
+                                                        ></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group"><label for="form_date_parution">Date
+                                                            parution:
+                                                        </label> <input id="form_date_parution" type="date"
+                                                                        name="form_date_parution"
+                                                                        class="form-control detail-input"
+                                                                        {% if not app.user %}disabled{% endif %}
+                                                                        required="required"
+                                                                        data-error="Champ obligatoire !"
+                                                                        value="{{ livre.getDateDeParution|date('Y-m-d') }}"
+                                                        ></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group"><label for="form_pages">Nombre pages:
+                                                        </label> <input id="form_pages" type="number"
+                                                                        name="form_pages"
+                                                                        class="form-control detail-input"
+                                                                        {% if not app.user %}disabled{% endif %}
+                                                                        required="required"
+                                                                        data-error="Champ obligatoire !"
+                                                                        value="{{ livre.nombrePages }}"
+                                                        ></div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group"><label for="form_note">Note:
+                                                        </label> <input id="form_note" type="number" min="0"
+                                                                        max="20"
+                                                                        name="form_note"
+                                                                        class="form-control detail-input"
+                                                                        {% if not app.user %}disabled{% endif %}
+                                                                        required="required"
+                                                                        data-error="Champ obligatoire !"
+                                                                        value="{{ livre.note ?? 0 }}"
+                                                        ></div>
+                                                </div>
+                                                <hr/>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="form_auteurs">Auteur(s):</label>
+                                                        <select name="form_auteurs[]" class="detail-input multi-select"
+                                                                {% if not app.user %}disabled{% endif %}
+                                                                id="form_auteurs" multiple>
+                                                            {% for auteur in auteurs %}
+                                                                <option
+                                                                        value="{{ auteur.id }}"{{ auteur in livre.auteurs ? 'selected' : '' }}
+                                                                        class="multi-select-option"
+                                                                        {% if not app.user %}disabled{% endif %}
+                                                                >{{ auteur.nomPrenom }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="form_genres">Genre(s):</label>
+                                                        <select name="form_genres[]" class="detail-input multi-select"
+                                                                {% if not app.user %}disabled{% endif %}
+                                                                id="form_genres" multiple>
+                                                            {% for genre in genres %}
+                                                                <option
+                                                                        value="{{ genre.id }}"{{ genre in livre.genres ? 'selected' : '' }}
+                                                                        class="multi-select-option"
+                                                                        {% if not app.user %}disabled{% endif %}
+                                                                >
+                                                                    {{ genre.nom }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <input class="btn btn-primary cursor-poiner styled-btn {% if not app.user %}d-none{% endif %}"
+                                                   type="submit"
+                                                   name="submit_form" value="Valider">
+                                            {% if app.user and livre.id is not null %}
+                                                <input class="btn btn-primary cursor-poiner styled-btn" type="button"
+                                                       onclick="window.location='{{ path('livre_delete', {livre : livre.id}) }}'"
+                                                       value="Supprimer">
+                                            {% endif %}
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
